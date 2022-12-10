@@ -59,12 +59,11 @@ class Button(Interface):
     def scrollingLeft(self, dictionary):
 
         objects = list(dictionary)
-        index = objects.index(chosen)
+        index = objects.index(settings.chosen)
         if index == 0:
-            chosen = objects[len(objects) - 1]
-            return chosen
+            settings.chosen = objects[len(objects) - 1]
         else:
-            chosen = objects[index - 1]
+            settings.chosen = objects[index - 1]
 
 
 class Coin(pygame.sprite.Sprite):
@@ -81,6 +80,10 @@ class Coin(pygame.sprite.Sprite):
 
         self.rect.x = random.randint(0, self.max_latitude)
         self.rect.y = random.randint(0, self.max_longitude)
+
+    def add_to_group(self, group1, group2):
+        group1.add(self)
+        group2.add(self)
 
 
 class Text(Interface):
