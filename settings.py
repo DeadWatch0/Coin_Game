@@ -5,6 +5,10 @@ from pygame.locals import *
 
 
 def init():
+
+    global running
+    running = True
+
     global chosen
     chosen = "cookie"
 
@@ -22,7 +26,7 @@ def init():
 
     global icon
     icon = {"exit": "src\exit.png", "buttonRight": r"src\buttonRight.png",
-            "buttonLeft": r"src\buttonLeft.png"}
+            "buttonLeft": r"src\buttonLeft.png", "lobby": r"src\lobby.png"}
 
     global skin
     skin = {"cookie": "src\cookie.png", "tower": r"src\tower.png"}
@@ -70,3 +74,6 @@ def init():
 
     global coin1
     coin1 = Coin(window_demensions)
+
+    global lobby_button
+    lobby_button = Button(icon["lobby"], window_demensions)

@@ -9,7 +9,6 @@ pygame.init()
 settings.init()
 pygame.display.set_caption("Coin Game")
 
-settings.character.add_to_group(settings.character_group, settings.all_sprites)
 
 settings.exit_text.rect.x = settings.exit_text.max_latitude/2
 settings.exit_text.rect.y = settings.exit_text.max_longitude/2
@@ -17,7 +16,6 @@ settings.exit_text.rect.y = settings.exit_text.max_longitude/2
 settings.start_text.rect.x = settings.start_text.max_latitude/2
 settings.start_text.rect.y = settings.character.rect.y + \
     settings.character.rect.width + 80
-settings.start_text.add_to_group(settings.text_group, settings.all_sprites)
 
 
 settings.points_counter.rect.x = settings.points_counter.max_latitude
@@ -25,21 +23,31 @@ settings.points_counter.rect.x = settings.points_counter.max_latitude
 settings.rightScroll.action_name = settings.rightScroll.scrollingRight
 settings.rightScroll.rect.x = settings.character.rect.x + 140
 settings.rightScroll.rect.y = settings.character.rect.y + 40
-settings.rightScroll.add_to_group(settings.button_group, settings.all_sprites)
 
 
 settings.leftScroll.action_name = settings.leftScroll.scrollingLeft
 settings.leftScroll.rect.x = settings.character.rect.x - \
     20 - settings.leftScroll.rect.width
 settings.leftScroll.rect.y = settings.character.rect.y + 40
-settings.leftScroll.add_to_group(settings.button_group, settings.all_sprites)
 
 
 settings.exit.action_name = settings.exit.quiting
-settings.exit.add_to_group(settings.button_group, settings.all_sprites)
+
+settings.lobby_button.rect.x = 0 + settings.exit.rect.width
 
 
 def lobby():
+    for each in settings.all_sprites:
+        each.kill()
+    settings.screen.blit(settings.background, (0, 0))
+    settings.character.add_to_group(
+        settings.character_group, settings.all_sprites)
+    settings.start_text.add_to_group(settings.text_group, settings.all_sprites)
+    settings.rightScroll.add_to_group(
+        settings.button_group, settings.all_sprites)
+    settings.leftScroll.add_to_group(
+        settings.button_group, settings.all_sprites)
+    settings.exit.add_to_group(settings.button_group, settings.all_sprites)
     settings.screen.blit(settings.background, (0, 0))
     for each in settings.all_sprites:
         settings.screen.blit(each.image, each.rect)
