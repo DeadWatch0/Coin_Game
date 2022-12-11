@@ -8,19 +8,23 @@ from pygame.locals import *
 
 
 def level():
-    settings.start_text.kill()
-    for button in settings.button_group:
-        if button == settings.exit:
-            pass
-        else:
-            button.kill()
-            settings.points_counter.add_to_group(
-                settings.text_group, settings.all_sprites)
-            settings.coin1.add_to_group(
-                settings.coin_group, settings.all_sprites)
-            settings.lobby_button.add_to_group(
-                settings.button_group, settings.all_sprites)
-            settings.screen.blit(settings.background, (0, 0))
+    for each in settings.all_sprites:
+        each.kill()
+    settings.screen.blit(settings.background, (0, 0))
+
+    settings.exit.add_to_group(settings.button_group, settings.all_sprites)
+    settings.character.add_to_group(
+        settings.character_group, settings.all_sprites)
+    settings.lobby_button.add_to_group(
+        settings.button_group, settings.all_sprites)
+    settings.coin1.add_to_group(settings.coin_group, settings.all_sprites)
+    settings.points_counter.add_to_group(
+        settings.text_group, settings.all_sprites)
+    for i in settings.bomb:
+        i.add_to_groups(settings.bomb_group, settings.all_sprites)
+    for a in settings.spikes:
+        a.add_to_groups(settings.spikes_group, settings.all_sprites)
+
     for each in settings.all_sprites:
         settings.screen.blit(each.image, each.rect)
     pygame.display.flip()
