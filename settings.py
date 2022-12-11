@@ -26,7 +26,7 @@ def init():
 
     global icon
     icon = {"exit": "src\exit.png", "buttonRight": r"src\buttonRight.png",
-            "buttonLeft": r"src\buttonLeft.png", "lobby": r"src\lobby.png"}
+            "buttonLeft": r"src\buttonLeft.png", "lobby": r"src\lobby.png", "bomb": r"src\bomb.png", "spikes": r"src\spikes.png"}
 
     global skin
     skin = {"cookie": "src\cookie.png", "tower": r"src\tower.png"}
@@ -48,6 +48,12 @@ def init():
 
     global text_group
     text_group = pygame.sprite.Group()
+
+    global bomb_group
+    bomb_group = pygame.sprite.Group()
+
+    global spikes_group
+    spikes_group = pygame.sprite.Group()
 
     global character
     character = Character(skin[settings.chosen], window_demensions)
@@ -77,3 +83,22 @@ def init():
 
     global lobby_button
     lobby_button = Button(icon["lobby"], window_demensions)
+
+    global bomb
+    bomb = []
+
+    global spikes
+    spikes = []
+
+    global bombs_number
+    bombs_number = 5
+
+    global spikes_number
+    spikes_number = 5
+
+    for i in range(0, bombs_number):
+        bomb.append(Bombs(icon["bomb"], window_demensions, 1))
+
+    for i in range(0, spikes_number):
+        spikes.append(Spikes(
+            icon["spikes"], window_demensions, 2))

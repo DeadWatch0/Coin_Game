@@ -40,6 +40,7 @@ def lobby():
     for each in settings.all_sprites:
         each.kill()
     settings.screen.blit(settings.background, (0, 0))
+
     settings.character.rect.x = settings.character.max_latitude/2
     settings.character.rect.y = settings.character.max_longitude/2
     settings.character.add_to_group(
@@ -50,6 +51,7 @@ def lobby():
     settings.leftScroll.add_to_group(
         settings.button_group, settings.all_sprites)
     settings.exit.add_to_group(settings.button_group, settings.all_sprites)
+
     settings.screen.blit(settings.background, (0, 0))
     for each in settings.all_sprites:
         settings.screen.blit(each.image, each.rect)

@@ -2,6 +2,7 @@ import sys
 import random
 import pygame
 import settings
+from character import *
 from settings import *
 from pygame.locals import *
 
@@ -23,6 +24,43 @@ class Interface (pygame.sprite.Sprite):
     def add_to_group(self, group1, group2):
         group1.add(self)
         group2.add(self)
+
+
+class Obstacles(pygame.sprite.Sprite):
+    def __init__(self, icon_name, window_demensions, penalty):
+        super().__init__()
+        self.image = pygame.image.load(icon_name).convert_alpha()
+        self.rect = self.image.get_rect()
+        self.max_latitude = window_demensions[0] - self.rect.width
+        self.max_longitude = window_demensions[1] - self.rect.height
+
+        self.penalty = penalty
+
+        self.rect.x = random.randint(0, self.max_latitude)
+        self.rect.y = random.randint(0, self.max_longitude)
+
+    def add_to_group(self, group):
+        group.add(self)
+
+    def add_to_groups(self, group1, group2):
+        group1.add(self)
+        group2.add(self)
+
+
+class Bombs(Obstacles):
+    def __init__(self, icon_name, window_demensions, penalty):
+        super().__init__(icon_name, window_demensions, penalty)
+
+    def bombing(self):
+        settings.points = settings.points - self.penalty
+
+
+class Spikes(Obstacles):
+    def __init__(self, icon_name, window_demensions, penalty):
+        super().__init__(icon_name, window_demensions, penalty)
+
+    def spiking(self):
+        settings.character.speed = settings.character.speed - self.penalty
 
 
 class Button(Interface):
