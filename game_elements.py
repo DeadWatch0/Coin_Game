@@ -38,11 +38,11 @@ class Obstacles(pygame.sprite.Sprite):
 
         self.rect.x = random.randint(0, self.max_latitude)
         self.rect.y = random.randint(0, self.max_longitude)
+        while self.rect.colliderect(settings.character.rect):
+            self.rect.x = random.randint(0, self.max_latitude)
+            self.rect.y = random.randint(0, self.max_longitude)
 
-    def add_to_group(self, group):
-        group.add(self)
-
-    def add_to_groups(self, group1, group2):
+    def add_to_group(self, group1, group2):
         group1.add(self)
         group2.add(self)
 
@@ -118,6 +118,9 @@ class Coin(pygame.sprite.Sprite):
 
         self.rect.x = random.randint(0, self.max_latitude)
         self.rect.y = random.randint(0, self.max_longitude)
+        while self.rect.colliderect(settings.character.rect):
+            self.rect.x = random.randint(0, self.max_latitude)
+            self.rect.y = random.randint(0, self.max_longitude)
 
     def add_to_group(self, group1, group2):
         group1.add(self)

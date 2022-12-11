@@ -3,6 +3,7 @@ import settings
 from settings import *
 from game_elements import *
 from lobby import *
+from collisions import *
 import pygame
 from pygame.locals import *
 
@@ -21,9 +22,9 @@ def level():
     settings.points_counter.add_to_group(
         settings.text_group, settings.all_sprites)
     for i in settings.bomb:
-        i.add_to_groups(settings.bomb_group, settings.all_sprites)
+        i.add_to_group(settings.bomb_group, settings.all_sprites)
     for a in settings.spikes:
-        a.add_to_groups(settings.spikes_group, settings.all_sprites)
+        a.add_to_group(settings.spikes_group, settings.all_sprites)
 
     for each in settings.all_sprites:
         settings.screen.blit(each.image, each.rect)
@@ -62,22 +63,10 @@ def level():
             break
 
         if settings.coin1.rect.colliderect(settings.character.rect):
-            settings.coin1.kill()
-            settings.points_counter.kill()
-
-            settings.character.speed += 2
-            settings.points += 1
-
-            settings.coin1 = Coin(settings.window_demensions)
-            settings.coin1.add_to_group(
-                settings.coin_group, settings.all_sprites)
-
-            settings.points_counter = Text(
-                f"points: {settings.points}", 36, (110, 50, 60), settings.window_demensions)
-            settings.points_counter.rect.x = settings.window_demensions[0] - \
-                settings.points_counter.rect.width
-            settings.points_counter.add_to_group(
-                settings.text_group, settings.all_sprites)
+            coin_collision()
+        for i in settings.bomb:
+            if i.rect.colliderect(settings.character.rect):
+                bomb_collision(i)
 
         settings.screen.blit(settings.background, (0, 0))
         for each in settings.all_sprites:
