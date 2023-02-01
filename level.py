@@ -26,8 +26,9 @@ def level():
             settings.character_group, settings.all_sprites)
         settings.lobby_button.add_to_group(
             settings.button_group, settings.all_sprites)
-        coins[0].add_to_group(
-            settings.coin_group, settings.all_sprites)
+        for coin in coins:
+            coin.add_to_group(
+                settings.coin_group, settings.all_sprites)
         settings.bomb.add_to_group(settings.bomb_group, settings.all_sprites)
         settings.points_counter.add_to_group(
             settings.text_group, settings.all_sprites)
@@ -68,6 +69,10 @@ def level():
 
             if settings.start_pressed == False:
                 break
+
+            for coin in coins:
+                if coin.rect.colliderect(settings.character.rect):
+                    coin_collision(coin)
 
             if settings.bomb.rect.colliderect(settings.character.rect):
                 bomb_collision()

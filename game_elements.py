@@ -34,7 +34,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.max_latitude = window_demensions[0] - self.rect.width
         self.max_longitude = window_demensions[1] - self.rect.height
 
-        self.efect = value
+        self.effect = value
 
         self.rect.x = random.randint(0, self.max_latitude)
         self.rect.y = random.randint(0, self.max_longitude)
