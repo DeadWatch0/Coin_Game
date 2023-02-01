@@ -25,7 +25,7 @@ def init():
     background = pygame.image.load(r"src\background.png").convert()
 
     global icon
-    icon = {"exit": "src\exit.png", "buttonRight": r"src\buttonRight.png",
+    icon = {"exit": "src\exit.png", "buttonRight": r"src\buttonRight.png", "coin": r"src\coin.png",
             "buttonLeft": r"src\buttonLeft.png", "lobby": r"src\lobby.png", "bomb": r"src\bomb.png", "spikes": r"src\spikes.png"}
 
     global skin
@@ -79,16 +79,13 @@ def init():
     exit = Button(icon["exit"], window_demensions)
 
     global coin1
-    coin1 = Coin(window_demensions)
+    coin1 = Obstacle(icon["coin"], window_demensions, 1)
 
     global lobby_button
     lobby_button = Button(icon["lobby"], window_demensions)
 
     global bomb
-    bomb = []
-
-    global spikes
-    spikes = []
+    bomb = Obstacle(icon["bomb"], window_demensions, -1)
 
     global bombs_number
     bombs_number = 5

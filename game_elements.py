@@ -26,7 +26,7 @@ class Interface (pygame.sprite.Sprite):
         group2.add(self)
 
 
-class Obstacles(pygame.sprite.Sprite):
+class Obstacle(pygame.sprite.Sprite):
     def __init__(self, icon_name, window_demensions, value):
         super().__init__()
         self.image = pygame.image.load(icon_name).convert_alpha()
@@ -86,29 +86,6 @@ class Button(Interface):
             settings.chosen = objects[len(objects) - 1]
         else:
             settings.chosen = objects[index - 1]
-
-
-class Coin(pygame.sprite.Sprite):
-
-    def __init__(self, window_demensions):
-        super().__init__()
-
-        self.image = pygame.image.load("src\coin.png").convert_alpha()
-
-        self.rect = self.image.get_rect()
-
-        self.max_latitude = window_demensions[0] - self.rect.width
-        self.max_longitude = window_demensions[1] - self.rect.height
-
-        self.rect.x = random.randint(0, self.max_latitude)
-        self.rect.y = random.randint(0, self.max_longitude)
-        while self.rect.colliderect(settings.character.rect):
-            self.rect.x = random.randint(0, self.max_latitude)
-            self.rect.y = random.randint(0, self.max_longitude)
-
-    def add_to_group(self, group1, group2):
-        group1.add(self)
-        group2.add(self)
 
 
 class Text(Interface):
