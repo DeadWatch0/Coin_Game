@@ -9,6 +9,7 @@ from pygame.locals import *
 
 
 def level():
+
     for each in settings.all_sprites:
         each.kill()
     settings.screen.blit(settings.background, (0, 0))
@@ -19,12 +20,9 @@ def level():
     settings.lobby_button.add_to_group(
         settings.button_group, settings.all_sprites)
     settings.coin1.add_to_group(settings.coin_group, settings.all_sprites)
+    settings.bomb.add_to_group(settings.bomb_group, settings.all_sprites)
     settings.points_counter.add_to_group(
         settings.text_group, settings.all_sprites)
-    for i in settings.bomb:
-        i.add_to_group(settings.bomb_group, settings.all_sprites)
-    for a in settings.spikes:
-        a.add_to_group(settings.spikes_group, settings.all_sprites)
 
     for each in settings.all_sprites:
         settings.screen.blit(each.image, each.rect)
@@ -62,11 +60,8 @@ def level():
         if settings.start_pressed == False:
             break
 
-        if settings.coin1.rect.colliderect(settings.character.rect):
-            coin_collision()
-        for i in settings.bomb:
-            if i.rect.colliderect(settings.character.rect):
-                bomb_collision(i)
+        if settings.bomb.rect.colliderect(settings.character.rect):
+            bomb_collision()
 
         settings.screen.blit(settings.background, (0, 0))
         for each in settings.all_sprites:
