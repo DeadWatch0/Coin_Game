@@ -95,10 +95,3 @@ def init():
 
     global spikes_number
     spikes_number = 5
-
-    for i in range(0, bombs_number):
-        bomb.append(Bombs(icon["bomb"], window_demensions, 1))
-
-    for i in range(0, spikes_number):
-        spikes.append(Spikes(
-            icon["spikes"], window_demensions, 2))
