@@ -8,15 +8,14 @@ from pygame.locals import *
 from level import *
 
 
-def coin_collision():
-    settings.coin1.kill()
+def coin_collision(obstacle):
+
+    settings.points += obstacle.effect
+    obstacle.kill()
     settings.points_counter.kill()
 
-    settings.character.speed += 2
-    settings.points += 1
-
-    settings.coin1 = Coin(settings.window_demensions)
-    settings.coin1.add_to_group(
+    obstacle = (Obstacle(icon["coin"], settings.window_demensions, 1))
+    obstacle.add_to_group(
         settings.coin_group, settings.all_sprites)
 
     settings.points_counter = Text(
