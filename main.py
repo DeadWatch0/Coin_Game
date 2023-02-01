@@ -11,13 +11,9 @@ from pygame.locals import *
 
 def main():
 
-    while True:
+    while (True):
         if lobby():
-            while level():
-                settings.running = True
-                if settings.start_pressed == False:
-                    settings.runnung = False
-                    break
+            level()
 
 
 if __name__ == '__main__':
