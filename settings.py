@@ -78,9 +78,6 @@ def init():
     global exit
     exit = Button(icon["exit"], window_demensions)
 
-    global coin1
-    coin1 = Obstacle(icon["coin"], window_demensions, 1)
-
     global lobby_button
     lobby_button = Button(icon["lobby"], window_demensions)
 

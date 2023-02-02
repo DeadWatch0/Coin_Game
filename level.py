@@ -10,7 +10,10 @@ from pygame.locals import *
 
 def level():
 
-    coins = [Obstacle(icon["coin"], window_demensions, 1)]
+    coins = [Obstacle(settings.icon["coin"], settings.window_demensions, 1), Obstacle(
+        settings.icon["coin"], settings.window_demensions, 1)]
+    bombs = [Obstacle(settings.icon["bomb"], settings.window_demensions, -1),
+             Obstacle(settings.icon["bomb"], settings.window_demensions, -1)]
 
     while (True):
         settings.running = True
@@ -29,14 +32,16 @@ def level():
         for coin in coins:
             coin.add_to_group(
                 settings.coin_group, settings.all_sprites)
-        settings.bomb.add_to_group(settings.bomb_group, settings.all_sprites)
+        for bomb in bombs:
+            bomb.add_to_group(
+                settings.bomb_group, settings.all_sprites)
         settings.points_counter.add_to_group(
             settings.text_group, settings.all_sprites)
 
         for each in settings.all_sprites:
             settings.screen.blit(each.image, each.rect)
         pygame.display.flip()
-        while 1:
+        while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -72,10 +77,15 @@ def level():
 
             for coin in coins:
                 if coin.rect.colliderect(settings.character.rect):
-                    coin_collision(coin)
+                    coin.kill()
+                    coins = obstacle_collision(
+                        coin, coins, settings.coin_group)
 
-            if settings.bomb.rect.colliderect(settings.character.rect):
-                bomb_collision()
+            for bomb in bombs:
+                if bomb.rect.colliderect(settings.character.rect):
+                    bomb.kill()
+                    bombs = obstacle_collision(
+                        bomb, bombs, settings.bomb_group)
 
             settings.screen.blit(settings.background, (0, 0))
             for each in settings.all_sprites:

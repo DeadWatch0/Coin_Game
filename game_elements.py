@@ -29,6 +29,7 @@ class Interface (pygame.sprite.Sprite):
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self, icon_name, window_demensions, value):
         super().__init__()
+        self.icon = icon_name
         self.image = pygame.image.load(icon_name).convert_alpha()
         self.rect = self.image.get_rect()
         self.max_latitude = window_demensions[0] - self.rect.width
