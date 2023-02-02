@@ -12,8 +12,10 @@ def level():
 
     coins = [Obstacle(settings.icon["coin"], settings.window_demensions, 1), Obstacle(
         settings.icon["coin"], settings.window_demensions, 1)]
-    bombs = [Obstacle(settings.icon["bomb"], settings.window_demensions, -1),
-             Obstacle(settings.icon["bomb"], settings.window_demensions, -1)]
+    bombs = []
+    for n in range(0, settings.bombs_number):
+        bombs.append(
+            Obstacle(settings.icon["bomb"], settings.window_demensions, -1))
 
     while (True):
         settings.running = True
