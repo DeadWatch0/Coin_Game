@@ -59,7 +59,7 @@ def level():
                             button.collision = button.rect.collidepoint(
                                 event.pos)
                             button.action(button.collision, button.action_name,
-                                          settings.exit_text, settings.screen, settings.background)
+                                          settings.exit_text1, settings.exit_text2, settings.screen, settings.background)
 
                 key_pressed = pygame.key.get_pressed()
                 if key_pressed[K_w]:

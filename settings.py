@@ -58,8 +58,12 @@ def init():
     global character
     character = Character(skin[settings.chosen], window_demensions)
 
-    global exit_text
-    exit_text = Text("GAME OVER!", 56, (255, 20, 20), window_demensions)
+    global exit_text1
+    exit_text1 = Text("GAME OVER!", 56, (255, 20, 20), window_demensions)
+
+    global exit_text2
+    exit_text2 = Text(f"Your score is: {points}",
+                      46, (255, 00, 20), window_demensions)
 
     global start_text
     start_text = Text("START", 34, (255, 255, 255), window_demensions)

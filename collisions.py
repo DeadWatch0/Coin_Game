@@ -14,7 +14,7 @@ def obstacle_collision(obstacle, array, group):
     temp_effect = obstacle.effect
 
     if (temp_effect == -1 and settings.points == 0):
-        settings.exit.quiting(settings.exit_text,
+        settings.exit.quiting(settings.exit_text1, settings.exit_text2,
                               settings.screen, settings.background)
 
     else:

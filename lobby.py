@@ -9,16 +9,18 @@ pygame.init()
 settings.init()
 pygame.display.set_caption("Coin Game")
 
+settings.points_counter.rect.x = settings.points_counter.max_latitude
 
-settings.exit_text.rect.x = settings.exit_text.max_latitude/2
-settings.exit_text.rect.y = settings.exit_text.max_longitude/2
+
+settings.exit_text1.rect.x = settings.exit_text1.max_latitude/2
+settings.exit_text1.rect.y = settings.exit_text1.max_longitude/2
+
+settings.exit_text2.rect.x = settings.exit_text2.max_latitude/2
+settings.exit_text2.rect.y = settings.exit_text1.rect.bottom + 50
 
 settings.start_text.rect.x = settings.start_text.max_latitude/2
 settings.start_text.rect.y = settings.character.rect.y + \
     settings.character.rect.width + 80
-
-
-settings.points_counter.rect.x = settings.points_counter.max_latitude
 
 settings.rightScroll.action_name = settings.rightScroll.scrollingRight
 settings.rightScroll.rect.x = settings.character.rect.x + 140
@@ -69,7 +71,7 @@ def lobby():
                     button.collision = button.rect.collidepoint(event.pos)
                     if button == settings.exit:
                         button.action(
-                            button.collision, button.action_name, settings.exit_text, settings.screen, settings.background)
+                            button.collision, button.action_name, settings.exit_text1, settings.exit_text2, settings.screen, settings.background)
                     else:
                         button.action(button.collision,
                                       button.action_name, settings.skin)

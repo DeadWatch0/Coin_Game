@@ -60,10 +60,10 @@ class Button(Interface):
         if coliding:
             function(*argumens)
 
-    def quiting(self, text, screen, background):
+    def quiting(self, text1, text2, screen, background):
 
-        screen.blit(background, (0, 0))
-        screen.blit(text.image, text.rect)
+        screen.blits(((background, (0, 0)), (text1.image,
+                     text1.rect), (text2.image, text2.rect)))
         pygame.display.flip()
 
         pygame.time.delay(2000)
