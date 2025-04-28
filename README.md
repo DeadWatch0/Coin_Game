@@ -1,3 +1,5 @@
+### README.md
+```markdown
 # Coin Collector Game
 
 A modular Python/Pygame casual game where the player collects coins to earn points, navigates obstacles (bombs) which reduce health, and aims to achieve the highest session score. Includes:
@@ -8,14 +10,15 @@ A modular Python/Pygame casual game where the player collects coins to earn poin
 - **Modular Codebase**: Separated into `settings.py`, `character.py`, `game_elements.py`, `hud.py`, `collisions.py`, `lobby.py`, `level.py`, and `main.py`.
 
 ### How to Run
-Use the terminal and enter:
 
+```bash
 pip install pygame pyinstaller
 python main.py
-
+```
 
 ### Build Executable
 
-Use the terminal and enter:
-
+```bash
 pyinstaller --name CoinGame --onefile --windowed --add-data "src;src" main.py
+```
+```
