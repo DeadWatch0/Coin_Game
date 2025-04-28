@@ -20,10 +20,11 @@ def level_loop():
 
     # Spawn game elements
     for _ in range(5):
-        Obstacle('coin', 1).add_to_groups(settings.ALL_SPRITES, settings.COINS)
-    for _ in range(3):
-        Obstacle('bomb', -1).add_to_groups(settings.ALL_SPRITES, settings.BOMBS)
+        Obstacle.spawn('coin', 1, settings.ALL_SPRITES, settings.COINS, [settings.COINS, settings.BOMBS])
 
+    for _ in range(3):
+        Obstacle.spawn('bomb', -1, settings.ALL_SPRITES, settings.BOMBS, [settings.COINS, settings.BOMBS])
+        
     # Add character
     char = Character()
     char.add_to_groups(settings.ALL_SPRITES)
