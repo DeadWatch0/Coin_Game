@@ -16,38 +16,46 @@ class Obstacle(pygame.sprite.Sprite):
             self.rect.topleft = position
 
     @classmethod
-    def spawn(cls, icon_key, value, all_sprites, target_group, avoid_groups, max_attempts=20, inflate_px=10):
+    def spawn(cls, icon_key, value, all_sprites, target_group,
+              max_attempts=20, inflate_px=10):
         """
-        Spawn a new Obstacle of given type at a random location
-        that does not overlap any sprite in avoid_groups.
+        Create & place one obstacle (coin or bomb):
+        - Adds into both all_sprites and target_group
+        - Avoids overlapping any sprite in all_sprites (inflated by inflate_px)
         """
+        import random
+        import settings
+
         icon_path = settings.ICONS[icon_key]
-        temp_image = pygame.image.load(icon_path).convert_alpha()
-        w, h = temp_image.get_size()
-        screen_w, screen_h = settings.WINDOW_DIMENSIONS
+        tmp_img = pygame.image.load(icon_path).convert_alpha()
+        w, h = tmp_img.get_size()
+        sw, sh = settings.WINDOW_DIMENSIONS
 
         for _ in range(max_attempts):
-            x = random.randint(0, screen_w - w)
-            y = random.randint(0, screen_h - h)
+            x = random.randint(0, sw - w)
+            y = random.randint(0, sh - h)
+            test_rect = pygame.Rect(x, y, w, h).inflate(inflate_px, inflate_px)
+
+            # Avoid any existing sprite, including the player
+            if any(test_rect.colliderect(other.rect) for other in all_sprites):
+                continue
+
+            # Good position
             obj = cls(icon_key, value, position=(x, y))
-            obj.image = temp_image
-            obj.rect = temp_image.get_rect(topleft=(x, y))
-            test_rect = obj.rect.inflate(inflate_px, inflate_px)
-            collision = False
-            for group in avoid_groups:
-                if any(test_rect.colliderect(other.rect) for other in group):
-                    collision = True
-                    break
-            if not collision:
-                obj.add_to_groups(all_sprites, target_group)
-                return obj
-        # fallback spawn at random without overlap check
-        x = random.randint(0, screen_w - w)
-        y = random.randint(0, screen_h - h)
+            obj.image = tmp_img
+            obj.rect  = tmp_img.get_rect(topleft=(x, y))
+            all_sprites.add(obj)
+            target_group.add(obj)
+            return obj
+
+        # Fallback
+        x = random.randint(0, sw - w)
+        y = random.randint(0, sh - h)
         obj = cls(icon_key, value, position=(x, y))
-        obj.image = temp_image
-        obj.rect = temp_image.get_rect(topleft=(x, y))
-        obj.add_to_groups(all_sprites, target_group)
+        obj.image = tmp_img
+        obj.rect  = tmp_img.get_rect(topleft=(x, y))
+        all_sprites.add(obj)
+        target_group.add(obj)
         return obj
     
     def add_to_groups(self, *groups):

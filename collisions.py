@@ -9,12 +9,12 @@ def check_collisions(character):
     hits = pygame.sprite.spritecollide(character, settings.COINS, True)
     for _ in hits:
         add_points(1)
-        Obstacle.spawn('coin', 1, settings.ALL_SPRITES, settings.COINS, [settings.COINS, settings.BOMBS])
+        Obstacle.spawn('coin',  1, settings.ALL_SPRITES, settings.COINS)
 
     hits = pygame.sprite.spritecollide(character, settings.BOMBS, True)
     for _ in hits:
         lose_health()
-        Obstacle.spawn('bomb', -1, settings.ALL_SPRITES, settings.BOMBS, [settings.COINS, settings.BOMBS])
+        Obstacle.spawn('bomb', -1, settings.ALL_SPRITES, settings.BOMBS)
         if settings.health <= 0:
             handle_game_over()
             return 'game_over'
