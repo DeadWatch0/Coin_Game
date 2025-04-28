@@ -18,4 +18,5 @@ python main.py
 Copy and run in your terminal: 
 
 pyinstaller --name CoinGame --onefile --windowed --add-data "src;src" main.py
+./dist/CoinGame.exe
 
