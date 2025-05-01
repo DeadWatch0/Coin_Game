@@ -1,7 +1,7 @@
 import pygame
 import random
 import settings
-from hud import handle_game_over
+
 
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self, icon_key, value, position=None):

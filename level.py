@@ -5,7 +5,8 @@ import settings
 from game_elements import Obstacle, Button
 from character import Character
 from collisions import check_collisions
-from hud import draw_hud, handle_game_over
+from game_over import show_game_over
+from hud import HUD
 
 def level_loop():
     # 1) Start a fresh session
@@ -37,7 +38,7 @@ def level_loop():
         # --- Event handling ---
         for ev in pygame.event.get():
             if ev.type == QUIT:
-                return 'QUIT'
+                return settings.STATE_QUIT
             if ev.type == MOUSEBUTTONDOWN:
                 for btn in settings.BUTTONS:
                     btn.handle_event(ev)
@@ -46,7 +47,7 @@ def level_loop():
             # cleanup & return immediately
             settings.GAME_SPRITES.empty()
             settings.BUTTONS.empty()
-            return 'LOBBY'
+            return settings.STATE_LOBBY
 
         # --- Player movement ---
         keys = pygame.key.get_pressed()
@@ -58,13 +59,16 @@ def level_loop():
         # --- Collisions & potential game over ---
         result = check_collisions(player)
         if result == 'game_over':
-            handle_game_over()
-            return 'LOBBY'
+            show_game_over(settings.SCREEN)
+            settings.change_state(settings.STATE_LOBBY)
+            return settings.STATE_LOBBY
 
         # --- Drawing ---
         screen.blit(settings.BACKGROUND_IMG, (0, 0))
         settings.GAME_SPRITES.draw(screen)
-        draw_hud()
+        if 'hud' not in globals():
+            hud = HUD()
+        hud.draw(screen)
         pygame.display.flip()
 
         # --- Tick ---

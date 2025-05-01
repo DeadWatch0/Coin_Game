@@ -2,37 +2,37 @@ import pygame
 from pygame.font import SysFont
 import settings
 
-def draw_hud():
-    font = SysFont('Arial', 24)
-    SCREEN = settings.SCREEN
-    # Score
-    score_surf = font.render(f"Score: {settings.points}", True, (255,255,255))
-    SCREEN.blit(score_surf, (10, 10))
-    # Session high
-    high_surf = font.render(f"High: {settings.session_high}", True, (255,255,0))
-    SCREEN.blit(high_surf, (10, 40))
-    # Health
-    health_surf = font.render(f"Health: {settings.health}", True, (255,0,0))
-    SCREEN.blit(health_surf, (10, 70))
+class HUD:
+    def __init__(self):
+        self.font = SysFont('Arial', 24)
+        # Cached values & surfaces
+        self._last_points = None
+        self._surf_points   = None
+        self._last_high     = None
+        self._surf_high     = None
+        self._last_health   = None
+        self._surf_health   = None
 
+    def draw(self, screen):
+        # Points
+        if settings.points != self._last_points:
+            text = f"Score: {settings.points}"
+            self._surf_points = self.font.render(text, True, (255,255,255))
+            self._last_points = settings.points
 
-def handle_game_over():
-    import pygame
-    from pygame.font import SysFont
-    import settings
-    from settings import save_high_score
+        # Session high
+        if settings.session_high != self._last_high:
+            text = f"High: {settings.session_high}"
+            self._surf_high = self.font.render(text, True, (255,255, 0))
+            self._last_high = settings.session_high
 
-    save_high_score()
-    SCREEN = settings.SCREEN
-    w, h = settings.WINDOW_DIMENSIONS
-    font1 = SysFont('Arial', 56)
-    font2 = SysFont('Arial', 36)
-    SCREEN.fill((0,0,0))
-    go = font1.render("GAME OVER", True, (255,0,0))
-    final = font2.render(f"Final: {settings.points}", True, (255,255,255))
-    high = font2.render(f"Best: {settings.high_score}", True, (255,255,0))
-    SCREEN.blit(go, (w//2 - go.get_width()//2, h//2 - 80))
-    SCREEN.blit(final, (w//2 - final.get_width()//2, h//2))
-    SCREEN.blit(high, (w//2 - high.get_width()//2, h//2 + 40))
-    pygame.display.flip()
-    pygame.time.wait(2000)
+        # Health
+        if settings.health != self._last_health:
+            text = f"Health: {settings.health}"
+            self._surf_health = self.font.render(text, True, (255, 0, 0))
+            self._last_health = settings.health
+
+        # Blit all
+        screen.blit(self._surf_points, (10,10))
+        screen.blit(self._surf_high,   (10,40))
+        screen.blit(self._surf_health, (10,70))
