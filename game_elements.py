@@ -1,16 +1,14 @@
 import pygame
 import random
 import settings
+from hud import handle_game_over
 
 class Obstacle(pygame.sprite.Sprite):
     def __init__(self, icon_key, value, position=None):
-        """
-        Initialize obstacle with given icon_key and effect. Optionally pass a position tuple (x,y).
-        """
         super().__init__()
         icon_path = settings.ICONS[icon_key]
         self.image = pygame.image.load(icon_path).convert_alpha()
-        self.rect = self.image.get_rect()
+        self.rect  = self.image.get_rect()
         self.effect = value
         if position:
             self.rect.topleft = position
@@ -18,11 +16,6 @@ class Obstacle(pygame.sprite.Sprite):
     @classmethod
     def spawn(cls, icon_key, value, all_sprites, target_group,
               max_attempts=20, inflate_px=10):
-        """
-        Create & place one obstacle (coin or bomb):
-        - Adds into both all_sprites and target_group
-        - Avoids overlapping any sprite in all_sprites (inflated by inflate_px)
-        """
         import random
         import settings
 

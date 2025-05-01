@@ -2,15 +2,23 @@ import traceback
 import pygame
 import settings
 from level import level_loop
+from lobby import lobby_screen
 
 
 def main():
     pygame.init()
     settings.init()
     while True:
-        result = level_loop()
-        if result == 'quit': break
-
+            
+        if settings.GAME_STATE == settings.STATE_LOBBY:
+            lobby_screen()
+            
+        if settings.GAME_STATE == settings.STATE_PLAY:
+            level_loop()
+            
+        if settings.GAME_STATE == settings.STATE_QUIT:
+            break
+        
 if __name__ == '__main__':
     try:
         main()

@@ -16,7 +16,8 @@ def init():
         'bomb': 'src/bomb.png',
         'buttonRight': 'src/buttonRight.png',
         'buttonLeft': 'src/buttonLeft.png',
-        'start': 'src/start.png'
+        'start': 'src/start.png',
+        'lobby': 'src/lobby.png'
     }
     SKINS = {
         'cookie': 'src/cookie.png',
@@ -41,11 +42,19 @@ def init():
         high_score = 0
 
     # Sprite groups
-    global ALL_SPRITES, BUTTONS, COINS, BOMBS
+    global ALL_SPRITES, LOBBY_SPRITES, GAME_SPRITES, BUTTONS, COINS, BOMBS
     ALL_SPRITES = pygame.sprite.Group()
+    LOBBY_SPRITES = pygame.sprite.Group()
+    GAME_SPRITES = pygame.sprite.Group()
     BUTTONS = pygame.sprite.Group()
     COINS = pygame.sprite.Group()
     BOMBS = pygame.sprite.Group()
+    
+    global GAME_STATE, STATE_LOBBY, STATE_PLAY, STATE_QUIT
+    STATE_LOBBY = 'LOBBY'
+    STATE_PLAY  = 'PLAY'
+    STATE_QUIT  = 'QUIT'
+    GAME_STATE = STATE_LOBBY
 
 
 def add_points(delta):
@@ -65,6 +74,12 @@ def save_high_score():
         high_score = session_high
         with open('high_score.txt', 'w') as f:
             f.write(str(high_score))
+            
+
+
+def change_state(state):
+    global GAME_STATE 
+    GAME_STATE = state
 
 
 def reset():
@@ -72,3 +87,7 @@ def reset():
     points = 0
     session_high = 0
     health = max_health
+    GAME_SPRITES.empty()
+    LOBBY_SPRITES.empty()
+    COINS.empty()
+    BOMBS.empty()
