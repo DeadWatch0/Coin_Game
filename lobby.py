@@ -62,6 +62,6 @@ def lobby_screen():
                 settings.LOBBY_SPRITES.empty()
                 settings.BUTTONS.empty()
                 settings.reset()
-                return 'PLAY'
+                return settings.STATE_PLAY
 
         clock.tick(30)

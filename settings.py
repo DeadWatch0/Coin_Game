@@ -2,6 +2,7 @@ import pygame
 import persistence
 
 def init():
+    pygame.init()
     # Window
     global WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_DIMENSIONS, SCREEN, CLOCK
     WINDOW_WIDTH, WINDOW_HEIGHT = 1275, 690
