@@ -4,17 +4,16 @@ import settings
 
 
 class Obstacle(pygame.sprite.Sprite):
-    def __init__(self, icon_key, value, position=None):
+    def __init__(self, icon_key, position=None):
         super().__init__()
         icon_path = settings.ICONS[icon_key]
         self.image = pygame.image.load(icon_path).convert_alpha()
         self.rect  = self.image.get_rect()
-        self.effect = value
         if position:
             self.rect.topleft = position
 
     @classmethod
-    def spawn(cls, icon_key, value, all_sprites, target_group,
+    def spawn(cls, icon_key, all_sprites, target_group,
               max_attempts=20, inflate_px=10):
         import random
         import settings
@@ -34,7 +33,7 @@ class Obstacle(pygame.sprite.Sprite):
                 continue
 
             # Good position
-            obj = cls(icon_key, value, position=(x, y))
+            obj = cls(icon_key, position=(x, y))
             obj.image = tmp_img
             obj.rect  = tmp_img.get_rect(topleft=(x, y))
             all_sprites.add(obj)
@@ -44,7 +43,7 @@ class Obstacle(pygame.sprite.Sprite):
         # Fallback
         x = random.randint(0, sw - w)
         y = random.randint(0, sh - h)
-        obj = cls(icon_key, value, position=(x, y))
+        obj = cls(icon_key, position=(x, y))
         obj.image = tmp_img
         obj.rect  = tmp_img.get_rect(topleft=(x, y))
         all_sprites.add(obj)

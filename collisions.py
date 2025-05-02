@@ -1,6 +1,5 @@
 import pygame
 import settings
-from settings import add_points, lose_health
 from game_elements import Obstacle
 
 # --- Spatial Hash Implementation ---
@@ -62,9 +61,9 @@ def check_collisions(character):
             # Remove and respawn
             settings.GAME_SPRITES.remove(spr)
             settings.COINS.remove(spr)
-            add_points(1)
-            Obstacle.spawn('coin', 1,
-                           settings.GAME_SPRITES, settings.COINS)
+            settings.change_points(1)
+            character.speed +=  0.1*character.speed
+            Obstacle.spawn('coin', settings.GAME_SPRITES, settings.COINS)
 
     # 3) Bomb collisions
     bomb_candidates = _grid.query(character.rect)
@@ -72,11 +71,19 @@ def check_collisions(character):
         if spr in settings.BOMBS and character.rect.colliderect(spr.rect):
             settings.GAME_SPRITES.remove(spr)
             settings.BOMBS.remove(spr)
-            lose_health()
-            Obstacle.spawn('bomb', -1,
-                           settings.GAME_SPRITES, settings.BOMBS)
+            settings.change_health(-1)
+            Obstacle.spawn('bomb',  settings.GAME_SPRITES, settings.BOMBS)
+            
+    # 4) Health collisions
+    health_potion_candidates = _grid.query(character.rect)
+    for spr in health_potion_candidates:
+        if spr in settings.HEALTH_POTIONS and character.rect.colliderect(spr.rect):
+            settings.GAME_SPRITES.remove(spr)
+            settings.HEALTH_POTIONS.remove(spr)
+            settings.change_health(1)
+            Obstacle.spawn('health_potion',  settings.GAME_SPRITES, settings.HEALTH_POTIONS)
 
-    # 4) Check for game over
+    # 5) Check for game over
     if settings.health <= 0:
         return 'game_over'
     return 'continue'

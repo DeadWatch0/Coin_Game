@@ -22,9 +22,11 @@ def level_loop():
 
     # 3) Spawn initial coins and bombs into GAME_SPRITES & their groups
     for _ in range(5):
-        Obstacle.spawn('coin',  1, settings.GAME_SPRITES, settings.COINS)
+        Obstacle.spawn('coin',  settings.GAME_SPRITES, settings.COINS)
     for _ in range(3):
-        Obstacle.spawn('bomb', -1, settings.GAME_SPRITES, settings.BOMBS)
+        Obstacle.spawn('bomb', settings.GAME_SPRITES, settings.BOMBS)
+    for _ in range(1):
+        Obstacle.spawn('health_potion', settings.GAME_SPRITES, settings.HEALTH_POTIONS)
 
     # 4) In-game “back to lobby” button
     lobby_btn = Button('lobby',

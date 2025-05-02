@@ -16,6 +16,7 @@ def init():
         'exit': 'src/exit.png',
         'coin': 'src/coin.png',
         'bomb': 'src/bomb.png',
+        'health_potion': 'src/health_potion.png',
         'buttonRight': 'src/buttonRight.png',
         'buttonLeft': 'src/buttonLeft.png',
         'start': 'src/start.png',
@@ -39,10 +40,10 @@ def init():
     high_score = _persisted.get('high_score', 0)
 
     # Sprite groups
-    global ALL_SPRITES, LOBBY_SPRITES, GAME_SPRITES, BUTTONS, COINS, BOMBS
-    ALL_SPRITES = pygame.sprite.Group()
+    global LOBBY_SPRITES, GAME_SPRITES, BUTTONS, COINS, BOMBS, HEALTH_POTIONS
     LOBBY_SPRITES = pygame.sprite.Group()
     GAME_SPRITES = pygame.sprite.Group()
+    HEALTH_POTIONS = pygame.sprite.Group()
     BUTTONS = pygame.sprite.Group()
     COINS = pygame.sprite.Group()
     BOMBS = pygame.sprite.Group()
@@ -54,15 +55,17 @@ def init():
     GAME_STATE = STATE_LOBBY
 
 
-def add_points(delta):
+def change_points(delta):
     global points, session_high
     points += delta
     session_high = max(session_high, points)
 
 
-def lose_health():
+def change_health(delta):
     global health
-    health -= 1
+    health += delta
+    if health < 0:
+        health = 0
 
 
 def save_high_score():
