@@ -1,4 +1,5 @@
 import pygame
+import persistence
 
 def init():
     # Window
@@ -26,20 +27,15 @@ def init():
     BACKGROUND_IMG = pygame.image.load('src/background.png').convert()
 
     # Game state
-    global points, session_high, health, max_health, high_score, selected_skin
-    points = 0
-    session_high = 0
+    global points, session_high, health, max_health, high_score, selected_skin, _persisted
+    points = session_high = 0
     max_health = 3
     health = max_health
     selected_skin = 'cookie'
 
-    # Load persistent high score
-    global high_score
-    try:
-        with open('high_score.txt', 'r') as f:
-            high_score = int(f.read())
-    except:
-        high_score = 0
+    # Load persisted data (e.g. high score)
+    _persisted = persistence.load()
+    high_score = _persisted.get('high_score', 0)
 
     # Sprite groups
     global ALL_SPRITES, LOBBY_SPRITES, GAME_SPRITES, BUTTONS, COINS, BOMBS
@@ -69,11 +65,11 @@ def lose_health():
 
 
 def save_high_score():
-    global high_score, session_high
+    global high_score, _persisted
     if session_high > high_score:
         high_score = session_high
-        with open('high_score.txt', 'w') as f:
-            f.write(str(high_score))
+        _persisted['high_score'] = high_score
+        persistence.save(_persisted)
             
 
 
