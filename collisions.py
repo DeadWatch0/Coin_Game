@@ -62,7 +62,7 @@ def check_collisions(character):
             settings.GAME_SPRITES.remove(spr)
             settings.COINS.remove(spr)
             settings.change_points(1)
-            character.speed +=  0.1*character.speed
+            character.add_speed()
             Obstacle.spawn('coin', settings.GAME_SPRITES, settings.COINS)
 
     # 3) Bomb collisions
@@ -73,6 +73,7 @@ def check_collisions(character):
             settings.BOMBS.remove(spr)
             settings.change_health(-1)
             Obstacle.spawn('bomb',  settings.GAME_SPRITES, settings.BOMBS)
+            Obstacle.spawn('health_potion',  settings.GAME_SPRITES, settings.HEALTH_POTIONS)
             
     # 4) Health collisions
     health_potion_candidates = _grid.query(character.rect)
@@ -81,7 +82,6 @@ def check_collisions(character):
             settings.GAME_SPRITES.remove(spr)
             settings.HEALTH_POTIONS.remove(spr)
             settings.change_health(1)
-            Obstacle.spawn('health_potion',  settings.GAME_SPRITES, settings.HEALTH_POTIONS)
 
     # 5) Check for game over
     if settings.health <= 0:

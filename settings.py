@@ -29,11 +29,12 @@ def init():
     BACKGROUND_IMG = pygame.image.load('src/background.png').convert()
 
     # Game state
-    global points, session_high, health, max_health, high_score, selected_skin, _persisted
+    global points, session_high, health, max_health, high_score, selected_skin, _persisted, objective
     points = session_high = 0
     max_health = 3
     health = max_health
     selected_skin = 'cookie'
+    objective = False
 
     # Load persisted data (e.g. high score)
     _persisted = persistence.load()
@@ -91,3 +92,4 @@ def reset():
     LOBBY_SPRITES.empty()
     COINS.empty()
     BOMBS.empty()
+    HEALTH_POTIONS.empty() 

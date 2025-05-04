@@ -25,18 +25,19 @@ def level_loop():
         Obstacle.spawn('coin',  settings.GAME_SPRITES, settings.COINS)
     for _ in range(3):
         Obstacle.spawn('bomb', settings.GAME_SPRITES, settings.BOMBS)
-    for _ in range(1):
-        Obstacle.spawn('health_potion', settings.GAME_SPRITES, settings.HEALTH_POTIONS)
 
     # 4) In-game “back to lobby” button
     lobby_btn = Button('lobby',
         (settings.WINDOW_WIDTH-40, 20), action=lambda: settings.change_state(settings.STATE_LOBBY))
     exit_btn  = Button('exit',(settings.WINDOW_WIDTH-40,  60), action=lambda: sys.exit())
+    
     settings.GAME_SPRITES.add(lobby_btn, exit_btn)
     settings.BUTTONS.add(lobby_btn, exit_btn)
 
     # 5) Main game loop
     while True:
+        dt = clock.tick(60) / 1000.0  # seconds
+        
         # --- Event handling ---
         for ev in pygame.event.get():
             if ev.type == QUIT:
@@ -45,18 +46,14 @@ def level_loop():
                 for btn in settings.BUTTONS:
                     btn.handle_event(ev)
         
-        if settings.GAME_STATE == settings.STATE_LOBBY:
-            # cleanup & return immediately
-            settings.GAME_SPRITES.empty()
-            settings.BUTTONS.empty()
-            return settings.STATE_LOBBY
+                if settings.GAME_STATE == settings.STATE_LOBBY:
+                # cleanup & return immediately
+                    settings.GAME_SPRITES.empty()
+                    settings.BUTTONS.empty()
+                    return settings.STATE_LOBBY
 
-        # --- Player movement ---
-        keys = pygame.key.get_pressed()
-        dx = keys[K_d] - keys[K_a]
-        dy = keys[K_s] - keys[K_w]
-        if dx or dy:
-            player.move(dx, dy)
+        # Update player physics
+        player.update(dt)
 
         # --- Collisions & potential game over ---
         result = check_collisions(player)
@@ -72,6 +69,3 @@ def level_loop():
             hud = HUD()
         hud.draw(screen)
         pygame.display.flip()
-
-        # --- Tick ---
-        clock.tick(60)
