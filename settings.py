@@ -19,6 +19,8 @@ def init():
         'coin':           'src/coin.png',
         'bomb':           'src/bomb.png',
         'health_potion':  'src/health_potion.png',
+        'max_health_potion':  'src/max_health_potion.png',
+        'reduce_speed_potion':  'src/reduce_speed_potion.png',
         'buttonRight':    'src/buttonRight.png',
         'buttonLeft':     'src/buttonLeft.png',
         'start':          'src/start.png',
@@ -44,13 +46,13 @@ def init():
 
     # Sprite groups
     global LOBBY_SPRITES, GAME_SPRITES, BUTTONS
-    global COINS, BOMBS, HEALTH_POTIONS, CHESTS, OBSTACLES
+    global COINS, BOMBS, POTIONS, CHESTS, OBSTACLES
     LOBBY_SPRITES     = pygame.sprite.Group()
     GAME_SPRITES      = pygame.sprite.Group()
     BUTTONS           = pygame.sprite.Group()
     COINS             = pygame.sprite.Group()
     BOMBS             = pygame.sprite.Group()
-    HEALTH_POTIONS    = pygame.sprite.Group()
+    POTIONS           = pygame.sprite.Group()
     CHESTS            = pygame.sprite.Group()
     OBSTACLES         = pygame.sprite.Group()
 
@@ -71,7 +73,7 @@ def init():
         Chest.spawn(GAME_SPRITES, CHESTS, position=(sw//2, sh//2))
 
     ObjectiveManager.register(
-        make_collect_objective(5, reward_fn=reward_collect_50)
+        make_collect_objective(20, reward_fn=reward_collect_50)
     )
 
 def change_points(delta):
@@ -106,6 +108,6 @@ def reset():
     LOBBY_SPRITES.empty()
     COINS.empty()
     BOMBS.empty()
-    HEALTH_POTIONS.empty()
+    POTIONS.empty()
     CHESTS.empty()
     OBSTACLES.empty()
