@@ -27,17 +27,17 @@ class Character(pygame.sprite.Sprite):
         self.max_x = w - self.rect.width
         self.max_y = h - self.rect.height
 
-    def add_speed(self):
+    def change_speed(self, delta):
         """Called on coin pickup: permanently improve speed and acceleration."""
         # 1) Raise your base take‑off speed so you see an instant jump
         base_gain = 20.0
-        self.base_speed = min(self.max_speed, self.base_speed + base_gain)
+        self.base_speed = min(self.max_speed, self.base_speed + delta*base_gain)
 
         # 2) Raise your thrust so future acceleration is quicker
-        self.thrust += self.thrust_gain
+        self.thrust += delta*self.thrust_gain
 
         # 3) Raise your max_speed so you can go faster overall
-        self.max_speed += self.thrust_gain
+        self.max_speed += delta*self.thrust_gain
 
     def update(self, dt):
         """Call each frame with dt = seconds since last frame."""
