@@ -5,34 +5,29 @@ import settings
 class HUD:
     def __init__(self):
         self.font = SysFont('Arial', 24)
-        # Cached values & surfaces
-        self._last_points = None
-        self._surf_points   = None
-        self._last_high     = None
-        self._surf_high     = None
-        self._last_health   = None
-        self._surf_health   = None
+        self._last = {'points': None, 'high': None, 'health': None}
+        self._surf = {}
 
     def draw(self, screen):
         # Points
-        if settings.points != self._last_points:
-            text = f"Score: {settings.points}"
-            self._surf_points = self.font.render(text, True, (255,255,255))
-            self._last_points = settings.points
-
-        # Session high
-        if settings.session_high != self._last_high:
-            text = f"High: {settings.session_high}"
-            self._surf_high = self.font.render(text, True, (255,255, 0))
-            self._last_high = settings.session_high
-
+        if settings.points != self._last['points']:
+            self._surf['points'] = self.font.render(
+                f"Score: {settings.points}", True, (255,255,255)
+            )
+            self._last['points'] = settings.points
+        # High score
+        if settings.session_high != self._last['high']:
+            self._surf['high'] = self.font.render(
+                f"High:  {settings.session_high}", True, (255,255, 0)
+            )
+            self._last['high'] = settings.session_high
         # Health
-        if settings.health != self._last_health:
-            text = f"Health: {settings.health}"
-            self._surf_health = self.font.render(text, True, (255, 0, 0))
-            self._last_health = settings.health
+        if settings.health != self._last['health']:
+            self._surf['health'] = self.font.render(
+                f"Health:{settings.health}", True, (255,  0,  0)
+            )
+            self._last['health'] = settings.health
 
-        # Blit all
-        screen.blit(self._surf_points, (10,10))
-        screen.blit(self._surf_high,   (10,40))
-        screen.blit(self._surf_health, (10,70))
+        screen.blit(self._surf['points'], (10,10))
+        screen.blit(self._surf['high'],   (10,40))
+        screen.blit(self._surf['health'], (10,70))

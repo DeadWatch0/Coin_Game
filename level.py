@@ -2,11 +2,13 @@ import sys
 import pygame
 from pygame.locals import QUIT, MOUSEBUTTONDOWN, K_w, K_s, K_a, K_d
 import settings
-from game_elements import Obstacle, Button
+from game_elements import Coin, Bomb, HealthPotion, Chest, Button
 from character import Character
 from collisions import check_collisions
 from game_over import show_game_over
 from hud import HUD
+from objective import ObjectiveManager
+
 
 def level_loop():
     # 1) Start a fresh session
@@ -16,15 +18,17 @@ def level_loop():
     clock  = settings.CLOCK
     w, h   = settings.WINDOW_DIMENSIONS
 
+    hud = HUD()
+    
     # 2) Create & add the player
     player = Character()
     settings.GAME_SPRITES.add(player)
 
     # 3) Spawn initial coins and bombs into GAME_SPRITES & their groups
     for _ in range(5):
-        Obstacle.spawn('coin',  settings.GAME_SPRITES, settings.COINS)
+        Coin.spawn(settings.GAME_SPRITES, settings.COINS)
     for _ in range(3):
-        Obstacle.spawn('bomb', settings.GAME_SPRITES, settings.BOMBS)
+        Bomb.spawn(settings.GAME_SPRITES, settings.BOMBS)
 
     # 4) In-game “back to lobby” button
     lobby_btn = Button('lobby',
@@ -61,11 +65,14 @@ def level_loop():
             show_game_over(settings.SCREEN)
             settings.change_state(settings.STATE_LOBBY)
             return settings.STATE_LOBBY
+        
+        # Update objectives
+        ObjectiveManager.update_all()
 
         # --- Drawing ---
         screen.blit(settings.BACKGROUND_IMG, (0, 0))
         settings.GAME_SPRITES.draw(screen)
-        if 'hud' not in globals():
-            hud = HUD()
         hud.draw(screen)
+        # Draw current objective
+        ObjectiveManager.draw_current(screen, hud.font, position=(10, 100))
         pygame.display.flip()

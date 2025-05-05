@@ -1,6 +1,6 @@
 import pygame
 import settings
-from game_elements import Obstacle
+from game_elements import Coin, Bomb, HealthPotion, Chest, Button
 
 # --- Spatial Hash Implementation ---
 class SpatialHash:
@@ -50,38 +50,16 @@ _grid = SpatialHash(cell_size=128)
 def check_collisions(character):
     # 1) Rebuild spatial hash of all game sprites
     _grid.clear()
-    for spr in settings.GAME_SPRITES:
+    for spr in settings.OBSTACLES:
         _grid.insert(spr)
 
     # 2) Coin collisions
     # Query nearby sprites before precise check
-    coin_candidates = _grid.query(character.rect)
-    for spr in coin_candidates:
-        if spr in settings.COINS and character.rect.colliderect(spr.rect):
-            # Remove and respawn
-            settings.GAME_SPRITES.remove(spr)
-            settings.COINS.remove(spr)
-            settings.change_points(1)
-            character.add_speed()
-            Obstacle.spawn('coin', settings.GAME_SPRITES, settings.COINS)
-
-    # 3) Bomb collisions
-    bomb_candidates = _grid.query(character.rect)
-    for spr in bomb_candidates:
-        if spr in settings.BOMBS and character.rect.colliderect(spr.rect):
-            settings.GAME_SPRITES.remove(spr)
-            settings.BOMBS.remove(spr)
-            settings.change_health(-1)
-            Obstacle.spawn('bomb',  settings.GAME_SPRITES, settings.BOMBS)
-            Obstacle.spawn('health_potion',  settings.GAME_SPRITES, settings.HEALTH_POTIONS)
-            
-    # 4) Health collisions
-    health_potion_candidates = _grid.query(character.rect)
-    for spr in health_potion_candidates:
-        if spr in settings.HEALTH_POTIONS and character.rect.colliderect(spr.rect):
-            settings.GAME_SPRITES.remove(spr)
-            settings.HEALTH_POTIONS.remove(spr)
-            settings.change_health(1)
+    candidates = _grid.query(character.rect)
+    for spr in candidates:
+        if character.rect.colliderect(spr.rect):
+            spr.on_collision(character)
+            spr.kill()
 
     # 5) Check for game over
     if settings.health <= 0:
