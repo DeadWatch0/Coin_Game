@@ -44,9 +44,14 @@ class Character(pygame.sprite.Sprite):
         # 1) Read and normalize input direction
         keys = pygame.key.get_pressed()
         iv = pygame.math.Vector2(
-            keys[pygame.K_d] - keys[pygame.K_a],
-            keys[pygame.K_s] - keys[pygame.K_w]
+            # right: D or →  
+            keys[pygame.K_d] or keys[pygame.K_RIGHT] ,  
+            # down: S or ↓  
+            keys[pygame.K_s] or keys[pygame.K_DOWN] ,  
         )
+        iv.x -= keys[pygame.K_a] or keys[pygame.K_LEFT]  # left: A or ←
+        iv.y -= keys[pygame.K_w] or keys[pygame.K_UP]    # up: W or ↑
+        
         if iv.length_squared():
             iv.normalize_ip()
 

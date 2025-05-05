@@ -51,7 +51,8 @@ def lobby_screen():
         # Event handling
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return 'QUIT'
+                return settings.STATE_QUIT
+            
             if event.type == MOUSEBUTTONDOWN:
                 for btn in settings.BUTTONS:
                     btn.handle_event(event)
