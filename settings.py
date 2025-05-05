@@ -101,7 +101,7 @@ def change_state(state):
 def reset():
     global points, session_high, health
     points = session_high = 0
-    health = max_health
+    health = max_health = 3
     GAME_SPRITES.empty()
     LOBBY_SPRITES.empty()
     COINS.empty()

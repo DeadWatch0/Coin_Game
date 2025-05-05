@@ -33,7 +33,7 @@ def level_loop():
     # 4) In-game “back to lobby” button
     lobby_btn = Button('lobby',
         (settings.WINDOW_WIDTH-40, 20), action=lambda: settings.change_state(settings.STATE_LOBBY))
-    exit_btn  = Button('exit',(settings.WINDOW_WIDTH-40,  60), action=lambda: sys.exit())
+    exit_btn  = Button('exit',(settings.WINDOW_WIDTH-40,  60), action=lambda: settings.change_state(settings.STATE_QUIT))
     
     settings.GAME_SPRITES.add(lobby_btn, exit_btn)
     settings.BUTTONS.add(lobby_btn, exit_btn)
@@ -45,13 +45,18 @@ def level_loop():
         # --- Event handling ---
         for ev in pygame.event.get():
             if ev.type == QUIT:
+                ObjectiveManager.reset()
                 return settings.STATE_QUIT
             if ev.type == MOUSEBUTTONDOWN:
                 for btn in settings.BUTTONS:
                     btn.handle_event(ev)
+                    if settings.GAME_STATE == settings.STATE_QUIT:
+                    # clean up if you like
+                        return settings.STATE_QUIT
         
                 if settings.GAME_STATE == settings.STATE_LOBBY:
                 # cleanup & return immediately
+                    ObjectiveManager.reset()
                     settings.GAME_SPRITES.empty()
                     settings.BUTTONS.empty()
                     return settings.STATE_LOBBY
@@ -63,6 +68,7 @@ def level_loop():
         result = check_collisions(player)
         if result == 'game_over':
             show_game_over(settings.SCREEN)
+            ObjectiveManager.reset()
             settings.change_state(settings.STATE_LOBBY)
             return settings.STATE_LOBBY
         

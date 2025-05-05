@@ -24,7 +24,7 @@ def lobby_screen():
         settings.selected_skin = keys[(idx + dir) % len(keys)]
 
     # Buttons
-    exit_btn  = Button('exit',       ( 60,  60), action=lambda: sys.exit())
+    exit_btn  = Button('exit',       ( 60,  60), action=lambda: settings.change_state(settings.STATE_QUIT))
     left_btn  = Button('buttonLeft', (w//2 -200, h//2), action=lambda: scroll(-1))
     right_btn = Button('buttonRight',(w//2 +200, h//2), action=lambda: scroll( 1))
     start_btn = Button('start',      (w//2,      h -100), action=lambda: settings.change_state(settings.STATE_PLAY))
@@ -56,6 +56,9 @@ def lobby_screen():
             if event.type == MOUSEBUTTONDOWN:
                 for btn in settings.BUTTONS:
                     btn.handle_event(event)
+                    if settings.GAME_STATE == settings.STATE_QUIT:
+                    # clean up if you like
+                        return settings.STATE_QUIT
 
             # State switch
             if settings.GAME_STATE == settings.STATE_PLAY:

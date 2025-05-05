@@ -41,6 +41,13 @@ class ObjectiveManager:
     @classmethod
     def register(cls, objective):
         cls._objectives.append(objective)
+    
+    @classmethod
+    def reset(cls):
+        """Clear completion state and rewind to the first objective."""
+        cls._current = 0
+        for obj in cls._objectives:
+            obj.completed = False
 
     @classmethod
     def update_all(cls):
