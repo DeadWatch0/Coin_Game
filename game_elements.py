@@ -99,9 +99,6 @@ class HealthPotion(Obstacle):
     def on_collision(self, character):
         if settings.health < settings.max_health:
             settings.change_health(1)
-
-
-        settings.change_health(1)
         
 class MaxHealthPotion(Obstacle):
     ICON_KEY = 'max_health_potion'
@@ -111,7 +108,7 @@ class MaxHealthPotion(Obstacle):
     
     def on_collision(self, character):
         settings.change_max_health(1)
-        settings.health = settings.max_health
+        settings.change_health(settings.max_health - settings.health)
         
 class ReduceSpeedPotion(Obstacle):
     ICON_KEY = 'reduce_speed_potion'
