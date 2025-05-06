@@ -73,7 +73,10 @@ def init():
     def reward_collect_50():
         from game_elements import Chest, MaxHealthPotion, ReduceSpeedPotion
         sw, sh = WINDOW_DIMENSIONS
-        Chest.spawn(GAME_SPRITES, CHESTS, position=(sw//2, sh//2), reward_classes=(MaxHealthPotion, ReduceSpeedPotion))
+        Chest.spawn(GAME_SPRITES, CHESTS, position=(sw//2, sh//2), reward_specs=[
+        (MaxHealthPotion, 1),    # spawn 2 health potions
+        (ReduceSpeedPotion, 1),  # spawn 1 speed potion
+    ])
 
     ObjectiveManager.register(
         make_collect_objective(20, reward_fn=reward_collect_50)

@@ -141,24 +141,36 @@ class Chest(Obstacle):
     ICON_KEY = 'chest'
     TARGET_GROUP = lambda: settings.CHESTS
     
-    def __init__(self, position=None, reward_classes=(), **kwargs):
-        super().__init__(position, **kwargs)
-        self.reward_classes = reward_classes
+    def __init__(self, position=None, reward_specs=()):
+        super().__init__(position)
+        # reward_specs is an iterable of (RewardClass, count)
+        self.reward_specs = reward_specs
 
     def on_collision(self, character):
         import math
         cx, cy  = self.rect.center
-        n       = len(self.reward_classes)
-        radius  = 80
 
-        for i, RewardCls in enumerate(self.reward_classes):
-            angle = (2 * math.pi * i) / n
-            pos   = (round(cx + math.cos(angle)*radius),
-                     round(cy + math.sin(angle)*radius))
-            # kwargs pass-through works here:
-            RewardCls.spawn(settings.GAME_SPRITES,
-                            RewardCls.TARGET_GROUP(),
-                            position=pos)
+        # Flatten specs into individual reward entries
+        rewards = []
+        for RewardCls, count in self.reward_specs:
+            rewards.extend([RewardCls] * count)
+
+        n      = len(rewards)
+        radius = 50
+
+        for i, RewardCls in enumerate(rewards):
+            angle = (2 * math.pi * i) / n if n > 0 else 0
+            dx    = math.cos(angle) * radius
+            dy    = math.sin(angle) * radius
+            pos   = (round(cx + dx), round(cy + dy))
+
+            # Look up its target group
+            target_group = RewardCls.TARGET_GROUP()
+            RewardCls.spawn(
+                settings.GAME_SPRITES,
+                target_group,
+                position=pos
+            )
 
 
 
