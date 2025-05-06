@@ -46,13 +46,16 @@ def init():
 
     # Sprite groups
     global LOBBY_SPRITES, GAME_SPRITES, BUTTONS
-    global COINS, BOMBS, POTIONS, CHESTS, OBSTACLES
+    global COINS, BOMBS, CHESTS, OBSTACLES
+    global HEALTH_POTIONS, MAX_HEALTH_POTIONS, REDUCE_SPEED_POTIONS
     LOBBY_SPRITES     = pygame.sprite.Group()
     GAME_SPRITES      = pygame.sprite.Group()
     BUTTONS           = pygame.sprite.Group()
     COINS             = pygame.sprite.Group()
     BOMBS             = pygame.sprite.Group()
-    POTIONS           = pygame.sprite.Group()
+    HEALTH_POTIONS    = pygame.sprite.Group()
+    MAX_HEALTH_POTIONS = pygame.sprite.Group()
+    REDUCE_SPEED_POTIONS = pygame.sprite.Group()
     CHESTS            = pygame.sprite.Group()
     OBSTACLES         = pygame.sprite.Group()
 
@@ -68,9 +71,9 @@ def init():
 
     # Example: collect 50 coins → spawn a chest + +1 max health
     def reward_collect_50():
-        from game_elements import Chest
+        from game_elements import Chest, MaxHealthPotion, ReduceSpeedPotion
         sw, sh = WINDOW_DIMENSIONS
-        Chest.spawn(GAME_SPRITES, CHESTS, position=(sw//2, sh//2))
+        Chest.spawn(GAME_SPRITES, CHESTS, position=(sw//2, sh//2), reward_classes=(MaxHealthPotion, ReduceSpeedPotion))
 
     ObjectiveManager.register(
         make_collect_objective(20, reward_fn=reward_collect_50)
@@ -108,6 +111,8 @@ def reset():
     LOBBY_SPRITES.empty()
     COINS.empty()
     BOMBS.empty()
-    POTIONS.empty()
+    MAX_HEALTH_POTIONS.empty()
+    HEALTH_POTIONS.empty()
+    REDUCE_SPEED_POTIONS.empty()
     CHESTS.empty()
     OBSTACLES.empty()

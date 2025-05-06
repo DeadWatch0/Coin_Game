@@ -63,6 +63,10 @@ def level_loop():
 
         # Update player physics
         player.update(dt)
+        
+        for spr in settings.OBSTACLES:
+            if hasattr(spr, 'activate_frame'):
+                spr.activate_frame()
 
         # --- Collisions & potential game over ---
         result = check_collisions(player)
