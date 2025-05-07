@@ -57,6 +57,9 @@ def check_collisions(character):
     # Query nearby sprites before precise check
     candidates = _grid.query(character.rect)
     for spr in candidates:
+        if hasattr(spr, '_frames_to_activate') and not spr.active:
+            continue
+        
         if character.rect.colliderect(spr.rect):
             spr.on_collision(character)
             spr.kill()
