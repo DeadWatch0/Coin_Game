@@ -74,12 +74,12 @@ def init():
         from game_elements import Chest, MaxHealthPotion, ReduceSpeedPotion
         sw, sh = WINDOW_DIMENSIONS
         Chest.spawn(GAME_SPRITES, CHESTS, position=(sw//2, sh//2), reward_specs=[
-        (MaxHealthPotion, 1),    # spawn 2 health potions
+        (MaxHealthPotion, 1),    # spawn 1 max health potions
         (ReduceSpeedPotion, 1),  # spawn 1 speed potion
     ])
 
     ObjectiveManager.register(
-        make_collect_objective(20, reward_fn=reward_collect_50)
+        make_collect_objective(10, reward_fn=reward_collect_50)
     )
 
 def change_points(delta):
@@ -89,11 +89,11 @@ def change_points(delta):
 
 def change_health(delta):
     global health
-    health = max(0, health + delta)
+    health += delta
     
 def change_max_health(delta):
     global max_health
-    max_health = max(0, health + delta)
+    max_health += delta
 
 def save_high_score():
     global high_score, _persisted
@@ -107,7 +107,7 @@ def change_state(state):
     GAME_STATE = state
 
 def reset():
-    global points, session_high, health
+    global points, session_high, health, max_health
     points = session_high = 0
     health = max_health = 3
     GAME_SPRITES.empty()
