@@ -89,11 +89,11 @@ def change_points(delta):
 
 def change_health(delta):
     global health
-    health += delta
+    health = max(0, min(max_health, health + delta))
     
 def change_max_health(delta):
     global max_health
-    max_health += delta
+    max_health = max(0, max_health + delta)
 
 def save_high_score():
     global high_score, _persisted
